@@ -3,7 +3,10 @@ package com.example.bsit.midtermexamv2;
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -12,10 +15,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends ListActivity {
 
-    private static String url = "http://172.17.3.51:5856/api/books";
+    private static String url = "http://joseniandroid.herokuapp.com/api/books";
     public final static String GET = "1";
     public final static String POST = "2";
 
@@ -40,7 +45,7 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        movieList = new ArrayList<HashMap<String, String>>();
+        movieList = new ArrayList<>();
 
         ListView lv = getListView();
         // Listview on item click listener
@@ -49,15 +54,12 @@ public class MainActivity extends ListActivity {
     }
 
 
-
-
-    public class GetMovie extends AsyncTask<Integer, Integer, Boolean> {
-
+    public class GetMovie extends AsyncTask<Void, Void, Void> {
 
 
         HttpUtils jparser = new HttpUtils();
 
-        String jsonStr = jparser.getResponse(url,GET);
+        String jsonStr = jparser.getResponse(url, GET);
 
 
         public void onPreExecute() {
@@ -66,15 +68,24 @@ public class MainActivity extends ListActivity {
 
 
         @Override
-        protected Boolean doInBackground(Integer... params) {
+        protected Void doInBackground(Void... params) {
             if (jsonStr != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     Books = jsonObj.getJSONArray(TAG_BOOKS);
 
-                    for(int i =0 ;i < Books.length();i++){
-                        String id ;
+                    for (int i = 0; i < Books.length(); i++) {
+                        JSONObject b = Books.getJSONObject(i);
+                        String id = b.getString(TAG_ID);
+                        String title = b.getString(TAG_TITLE);
+                        String genre = b.getString(TAG_ID);
+                        String author = b.getString(TAG_AUTHOR);
+                        String isReaD = b.getString(String.valueOf(TAG_ISREAD));
+
+                        HashMap<String, String> book = new HashMap<String, String>();
+
+                        movieList.add(book);
 
                     }
 
@@ -82,83 +93,100 @@ public class MainActivity extends ListActivity {
                     e.printStackTrace();
                 }
 
-            }
-            return false;
+
+            } else
+                Log.d("HttpUtils", "Could not fetch Data from Url");
+            return null;
         }
-
-
-
-    }
-
-    public class Movies{
-        String id;
-        String title;
-        String genre;
-        String autor;
-        Boolean isRead;
 
         @Override
-        public String toString() {
-            return "Movies{" +
-                    "id='" + id + '\'' +
-                    ", title='" + title + '\'' +
-                    ", genre='" + genre + '\'' +
-                    ", autor='" + autor + '\'' +
-                    ", isRead=" + isRead +
-                    '}';
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+
+            /**
+             * Updating parsed JSON data into ListView
+             * */
+            ListAdapter adapter = new SimpleAdapter(
+                    MainActivity.this, (List<? extends Map<String, ?>>) movieList,
+                    R.layout.list_item, new String[]{TAG_ID, TAG_TITLE,
+                    TAG_GENRE, TAG_AUTHOR, String.valueOf(TAG_ISREAD)}, new int[]{R.id.name,
+                    R.id.email, R.id.mobile});
+
+            setListAdapter(adapter);
+
+
         }
 
-        public Movies(String id, String title, String genre, String autor, Boolean isRead) {
-            this.id = id;
-            this.title = title;
-            this.genre = genre;
-            this.autor = autor;
-            this.isRead = isRead;
+        public class Movies {
+            String id;
+            String title;
+            String genre;
+            String autor;
+            Boolean isRead;
+
+            @Override
+            public String toString() {
+                return "Movies{" +
+                        "id='" + id + '\'' +
+                        ", title='" + title + '\'' +
+                        ", genre='" + genre + '\'' +
+                        ", autor='" + autor + '\'' +
+                        ", isRead=" + isRead +
+                        '}';
+            }
+
+            public Movies(String id, String title, String genre, String autor, Boolean isRead) {
+                this.id = id;
+                this.title = title;
+                this.genre = genre;
+                this.autor = autor;
+                this.isRead = isRead;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getGenre() {
+                return genre;
+            }
+
+            public void setGenre(String genre) {
+                this.genre = genre;
+            }
+
+            public String getAutor() {
+                return autor;
+            }
+
+            public void setAutor(String autor) {
+                this.autor = autor;
+            }
+
+            public Boolean getIsRead() {
+                return isRead;
+            }
+
+            public void setIsRead(Boolean isRead) {
+                this.isRead = isRead;
+            }
         }
 
-        public String getId() {
-            return id;
-        }
 
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getGenre() {
-            return genre;
-        }
-
-        public void setGenre(String genre) {
-            this.genre = genre;
-        }
-
-        public String getAutor() {
-            return autor;
-        }
-
-        public void setAutor(String autor) {
-            this.autor = autor;
-        }
-
-        public Boolean getIsRead() {
-            return isRead;
-        }
-
-        public void setIsRead(Boolean isRead) {
-            this.isRead = isRead;
-        }
     }
-
-
-
 }
 
 //
