@@ -48,6 +48,7 @@ public class MainActivity extends ListActivity {
         ListView lv = getListView();
         // Listview on item click listener
 
+        new GetMovie().execute();
 
     }
 
@@ -120,76 +121,77 @@ public class MainActivity extends ListActivity {
 
         }
 
-        public class Movies {
-            String id;
-            String title;
-            String genre;
-            String autor;
-            Boolean isRead;
-
-            @Override
-            public String toString() {
-                return "Movies{" +
-                        "id='" + id + '\'' +
-                        ", title='" + title + '\'' +
-                        ", genre='" + genre + '\'' +
-                        ", autor='" + autor + '\'' +
-                        ", isRead=" + isRead +
-                        '}';
-            }
-
-            public Movies(String id, String title, String genre, String autor, Boolean isRead) {
-                this.id = id;
-                this.title = title;
-                this.genre = genre;
-                this.autor = autor;
-                this.isRead = isRead;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getGenre() {
-                return genre;
-            }
-
-            public void setGenre(String genre) {
-                this.genre = genre;
-            }
-
-            public String getAutor() {
-                return autor;
-            }
-
-            public void setAutor(String autor) {
-                this.autor = autor;
-            }
-
-            public Boolean getIsRead() {
-                return isRead;
-            }
-
-            public void setIsRead(Boolean isRead) {
-                this.isRead = isRead;
-            }
-        }
 
 
     }
 }
+
+//        public class Movies {
+//            String id;
+//            String title;
+//            String genre;
+//            String autor;
+//            Boolean isRead;
+//
+//            @Override
+//            public String toString() {
+//                return "Movies{" +
+//                        "id='" + id + '\'' +
+//                        ", title='" + title + '\'' +
+//                        ", genre='" + genre + '\'' +
+//                        ", autor='" + autor + '\'' +
+//                        ", isRead=" + isRead +
+//                        '}';
+//            }
+//
+//            public Movies(String id, String title, String genre, String autor, Boolean isRead) {
+//                this.id = id;
+//                this.title = title;
+//                this.genre = genre;
+//                this.autor = autor;
+//                this.isRead = isRead;
+//            }
+//
+//            public String getId() {
+//                return id;
+//            }
+//
+//            public void setId(String id) {
+//                this.id = id;
+//            }
+//
+//            public String getTitle() {
+//                return title;
+//            }
+//
+//            public void setTitle(String title) {
+//                this.title = title;
+//            }
+//
+//            public String getGenre() {
+//                return genre;
+//            }
+//
+//            public void setGenre(String genre) {
+//                this.genre = genre;
+//            }
+//
+//            public String getAutor() {
+//                return autor;
+//            }
+//
+//            public void setAutor(String autor) {
+//                this.autor = autor;
+//            }
+//
+//            public Boolean getIsRead() {
+//                return isRead;
+//            }
+//
+//            public void setIsRead(Boolean isRead) {
+//                this.isRead = isRead;
+//            }
+//        }
 
 //
 //        @Override
