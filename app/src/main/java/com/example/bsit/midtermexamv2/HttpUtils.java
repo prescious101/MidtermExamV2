@@ -19,6 +19,8 @@ import java.net.URL;
 public class HttpUtils {
 
     private static final String LOG_TAG = HttpUtils.class.getSimpleName();
+    public final static int GET = 1;
+    public final static int POST = 2;
 
     /**
      * Retrieves the response data in String format from the specifed URL.
@@ -31,9 +33,9 @@ public class HttpUtils {
         if (TextUtils.isEmpty(sUrl)) {
             throw new RuntimeException("Passed URL is either null or empty.");
         }
-        if (TextUtils.isEmpty(requestMethod)) {
-            throw new RuntimeException("Request Method is null or empty");
-        }
+//        if (TextUtils.isEmpty(requestMethod)) {
+//            throw new RuntimeException("Request Method is null or empty");
+//        }
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
