@@ -15,8 +15,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends ListActivity {
 
@@ -85,6 +83,12 @@ public class MainActivity extends ListActivity {
 
                         HashMap<String, String> book = new HashMap<String, String>();
 
+                        book.put(TAG_ID,id);
+                        book.put(TAG_TITLE,title);
+                        book.put(TAG_GENRE,genre);
+                        book.put(TAG_AUTHOR,author);
+                        book.put(String.valueOf(TAG_ISREAD),isReaD);
+
                         movieList.add(book);
 
                     }
@@ -108,13 +112,11 @@ public class MainActivity extends ListActivity {
              * Updating parsed JSON data into ListView
              * */
             ListAdapter adapter = new SimpleAdapter(
-                    MainActivity.this, (List<? extends Map<String, ?>>) movieList,
+                    MainActivity.this, movieList,
                     R.layout.list_item, new String[]{TAG_ID, TAG_TITLE,
-                    TAG_GENRE, TAG_AUTHOR, String.valueOf(TAG_ISREAD)}, new int[]{R.id.name,
-                    R.id.email, R.id.mobile});
-
+                    TAG_GENRE, TAG_AUTHOR, String.valueOf(TAG_ISREAD)}, new int[]{R.id.id,
+                    R.id.title, R.id.genre,R.id.author,R.id.isRead});
             setListAdapter(adapter);
-
 
         }
 
